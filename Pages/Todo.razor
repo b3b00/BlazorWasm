@@ -1,0 +1,29 @@
+
+@using BlazorApp.Data
+@inject ITodoService todoService
+
+<li> <span style="@(GetStyle())">@(todo.Id.ToString()) : @(todo.Description) </span> <button @onclick="toggleState">@(todo.Done ? "rework" : "done")</button> </li>
+
+@code {
+    
+    [Parameter]
+    public TodoItem todo { get; set; }
+
+    private void toggleState()
+    {
+        todo.Done = !todo.Done;
+        todoService.SetDone(todo,todo.Done);
+    }
+
+    private string GetStyle()
+    {
+        if (todo.Done)
+        {
+            return "text-decoration: line-through";
+        }
+        else
+        {
+            return "";
+        }
+    }
+}

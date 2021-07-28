@@ -1,0 +1,53 @@
+@page "/todos"
+
+@using BlazorApp.Data
+@inject ITodoService todoService
+
+<h1>TODOS</h1>
+<label for="showdone">Show done tasks</label>
+<input id="showdone" type="checkbox" @bind="showDone" @bind:event="onchange" name="show done tasks"/>
+
+<ul>
+    @foreach (var todo in todos)
+    {
+        if (!todo.Done || (todo.Done && showDone))
+        {
+            <Todo todo="todo"/>
+        }
+    }
+</ul>
+
+<input type="text" @bind="description" @bind:event="oninput" /> <button @onclick="AddItem">Add</button>
+
+
+@code {
+    private List<TodoItem> todos;
+
+    private string description;
+
+    private bool showDone;
+
+    
+
+    private void RefreshMe()
+    {
+        StateHasChanged();
+    }
+    
+    private void AddItem()
+    {
+        if (!string.IsNullOrEmpty(description))
+        {
+            todoService.Add(description);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        todos = todoService.GetTodos();
+        todoService.RefreshRequested += RefreshMe;
+    }
+    
+
+  
+}
