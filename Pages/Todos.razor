@@ -17,7 +17,7 @@
     }
 </ul>
 
-<input type="text" @bind="description" @bind:event="oninput" /> <button @onclick="AddItem">Add</button>
+<input type="text" @bind="description" @bind:event="oninput" @onkeydown="OnKeyDown"/> <button @onclick="AddItem">Add</button>
 
 
 @code {
@@ -27,7 +27,13 @@
 
     private bool showDone;
 
-    
+    private void OnKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            AddItem();
+        }
+    }
 
     private void RefreshMe()
     {
