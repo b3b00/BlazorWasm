@@ -12,7 +12,7 @@
     {
         if (!todo.Done || (todo.Done && showDone))
         {
-            <Todo todo="todo"/>
+            <Todo todo="todo" DoneCallback="toggle"/>
         }
     }
 </ul>
@@ -27,6 +27,11 @@
 
     private bool showDone;
 
+    private void toggle(TodoItem todo)
+    {
+        todoService.SetDone(todo,!todo.Done);
+    }
+    
     private void OnKeyDown(KeyboardEventArgs args)
     {
         if (args.Key == "Enter")
@@ -45,6 +50,7 @@
         if (!string.IsNullOrEmpty(description))
         {
             todoService.Add(description);
+            todos = todoService.GetTodos();
         }
     }
 

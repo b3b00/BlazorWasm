@@ -9,10 +9,14 @@
     [Parameter]
     public TodoItem todo { get; set; }
 
+    [Parameter]
+    public Action<TodoItem> DoneCallback { get; set; }
+
     private void toggleState()
     {
-        todo.Done = !todo.Done;
-        todoService.SetDone(todo,todo.Done);
+        DoneCallback(todo);
+    // todo.Done = !todo.Done;
+    // todoService.SetDone(todo,todo.Done);
     }
 
     private string GetStyle()
